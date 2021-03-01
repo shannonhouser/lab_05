@@ -1,7 +1,7 @@
 ---
 title: "Lab 05"
-author: ""
-date: ""
+author: "Shannon Houser"
+date: "03-01-2021"
 output: 
   html_document:
     toc: true
@@ -36,6 +36,8 @@ Find a pattern so only the first three components of `x` are subset.
 ```{r}
 x <- c("abcde", "ab", "abc", "aa")
 x[str_detect(x, pattern = "")]
+
+x[str_detect(x, pattern = "^ab")]
 ```
 
 #### Digits: `\d`
@@ -45,6 +47,7 @@ Find a pattern so all components of `x` are subset.
 ```{r}
 x <- c("abc124ewi", "124jtk", "124")
 x[str_detect(x, pattern = "")]
+x[str_detect(x, pattern = "124")]
 ```
 
 Find a pattern so all components of `x` are subset.
@@ -52,6 +55,7 @@ Find a pattern so all components of `x` are subset.
 ```{r}
 x <- c("test2", "help3", "4", "a0df")
 x[str_detect(x, pattern = "")]
+x[str_detect(x, "\\d?")]
 ```
 
 #### The dot: `.`
@@ -61,6 +65,7 @@ Find a pattern so only the components of `x` with a dot are subset.
 ```{r}
 x <- c(".png", "aei1", "first.last", "%@?.")
 x[str_detect(x, pattern = "")]
+x[str_detect(x, pattern = "\\.+")]
 ```
 
 Find a pattern so all but the last component of `x` are subset.
@@ -68,6 +73,7 @@ Find a pattern so all but the last component of `x` are subset.
 ```{r}
 x <- c("a", "\\", "b", "4", "$", "\t", "\n")
 x[str_detect(x, pattern = "")]
+x[str_detect(x, pattern = ".")]
 ```
 
 #### Classes: `[ ]`
@@ -77,6 +83,7 @@ Find a pattern so only the animals are subset.
 ```{r}
 x <- c("cat", "rat", "bat", "hat")
 x[str_detect(x, pattern = "")]
+x[str_detect(x, "[c,r]at")]
 ```
 
 Find a pattern so only the names are subset 
@@ -84,7 +91,7 @@ Find a pattern so only the names are subset
 
 ```{r}
 x <- c("Shawn", "fawn", "Dawn", "pawn", "lawn", "Jon")
-x[str_detect(x, pattern = "")]
+x[str_detect(x, pattern = "^[A-Z]")]
 ```
 
 #### Repititions: `{ }`, `*`, `+`
@@ -94,6 +101,7 @@ Find a pattern so only the incorrect spellings are subset.
 ```{r}
 x <- c("hello", "helllo", "hellllllo", "helllllllo")
 x[str_detect(x, pattern = "")]
+x[str_detect(x, "l{3,}")]
 ```
 
 Find a pattern so the first three components are matched completely. Your
@@ -102,6 +110,7 @@ result should be a 4 x 1 matrix with the value `NA` in row four.
 ```{r}
 x <- c("aaaabcc", "aabbbbc", "aacca", "a")
 str_match(x, pattern = "")
+str_match(x, pattern = "a+(b|c)+a?")
 ```
 
 #### Optionality: `?`
@@ -112,7 +121,7 @@ result should be a 4 x 1 matrix with the value `NA` in row three.
 ```{r}
 x <- c("1 name available?", "2 names available?", "no names found!",
        "22 names available?")
-str_match(x, pattern = "")
+str_match(x, pattern = "\\d{1,2}\\D{0,}")
 ```
 
 #### Anchors: `^` and `$`
@@ -123,7 +132,7 @@ result should be a 4 x 1 matrix with the value `NA` in rows two through four.
 ```{r}
 x <- c("My exam was successful", "Unfortunately, My exam was unsuccessful",
        "My exam was a success", "My exam was successful today")
-str_match(x, pattern = "")
+str_match(x, pattern = "^M.*ful$")
 ```
 
 #### Capture groups: `( )`
@@ -134,7 +143,7 @@ only the month abbreviations.
 
 ```{r}
 x <- c("Feb 11", "Sep 21", "Nov 2022", "Jun 1995")
-str_match(x, pattern = "")
+str_match(x, pattern = "([A-z]{3}) \\d{2,}")
 ```
 
 Find a pattern to completely match all the dates with the months as a capture
@@ -152,7 +161,8 @@ matrix with the second column being the full date and the
 third column being the years.
 
 ```{r}
-str_match(x, pattern = "")
+x <- c("Feb 11", "Sep 21", "Nov 2022", "Jun 1995")
+str_match(x, pattern = "([A-z]{3}) (\\d{2,})")
 ```
 
 ## Regex challenges
@@ -167,7 +177,7 @@ result should have a value of `NA` for the last component.
 
 ```{r}
 x <- c("3.14", "100", "-259.11", "2.3e3", "1,112", "720p")
-str_match(x, pattern = "")[, 1]
+str_match(x, pattern = ".{0,}\\d$")[, 1]
 ```
 
 Find a pattern so all the image files (`.jpg` and `.png`) are extracted with
@@ -177,7 +187,7 @@ their name and file extensions as capture groups. Your result should be an
 ```{r}
 x <- c(".gitignore", "img-01.png", "vis.jpg", ".Rhistory", "lab5.R",
        "update_vis.jpg", "lab5.html", "png.pdf")
-str_match(x, pattern = "")
+str_match(x, pattern = "(.*)(.png|.jpg)$")
 ```
 
 Find a pattern to completely match all the phone numbers.
@@ -185,6 +195,6 @@ Find a pattern to completely match all the phone numbers.
 ```{r}
 x <- c("423-114-4432", "572-525-2532", "(322)523-1000", "401 342 1983",
        "3781340100", "1 800 432 1341")
-str_match(x, pattern = "")
+str_match(x, pattern = "\\d* *\\(*\\d{3}\\)*[ -]*\\d{3}[ -]*\\d{4}")
 ```
 
